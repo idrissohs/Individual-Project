@@ -1,0 +1,19 @@
+{% extends "project/base.html" %}
+
+
+{% block content %}
+    <div class="jumbotron">
+      <div class="container">
+        <h1>StartUp Bank!</h1>
+        <p>Join today to share your great startup idea, or find amazing startup ideas.</p>
+	{% if not user.is_authenticated %}
+         <form id="register" method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+        	<p><a class="btn btn-primary btn-lg" href="../register/" role="button">Join Today &raquo;</a></p>
+        </form>
+      {% else %}
+	<p><a class="btn btn-primary btn-lg" href="../ideas/" role="button">Check out Ideas &raquo;</a></p>
+      {% endif %}
+      </div>
+    </div>
+{% endblock %}

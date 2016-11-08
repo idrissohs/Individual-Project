@@ -1,0 +1,53 @@
+{% extends "project/base.html" %}
+<!DOCTYPE html>
+{% load static %}
+{% block content %}
+    <style>
+	       .idealist {
+		    background-color: lightgrey;
+		    bottom: 20px;
+                    padding: 20px;
+                    display: block;
+                    margin-bottom: 20px;
+		   }
+    </style>
+    <head>
+        <title>StartUp Bank</title>
+    </head>
+    <body>
+        <h1>Ideas</h1>
+        {% for idea in ideas %}
+        <div class="idealist">
+        <h2>{{ idea.title }}</h2>
+        <p style="text-align:right"> by: {{idea.author}}</p>
+        <p>About: {{idea.about}}</p>
+        <p>Industry: {{idea.get_domain_display}}</p>
+        <form action="{% url 'like' pk=idea.pk %}">
+        {{idea.likes}}
+        <button type="submit"> <img src="{% static 'img/like.jpg' %}" alt="Like" width="25" height="25"/></button>
+        </form>
+        <form action="{% url 'dislike' pk=idea.pk %}">
+        {{idea.dislikes}}
+        <button type="submit"> <img src="{% static 'img/dislike.png' %}"  alt="Dislike" width="25" height="25"/> </button>                                 
+        </form>
+        </div>  
+        {% endfor %}
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if ideas.has_previous %}
+            <a href="?page={{ ideas.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ ideas.number }} of {{ ideas.paginator.num_pages }}.
+        </span>
+
+        {% if ideas.has_next %}
+            <a href="?page={{ ideas.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+    </div>
+    </body>
+</html>
+{% endblock %}
